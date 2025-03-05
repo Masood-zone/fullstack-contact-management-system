@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js & npm run build:css -- --watch",
-    "build": "next build",
+    "build": "npm run build",
     "start": "npm run build:css && node app.js",
-    "lint": "next lint",
+    "lint": "npm run lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "build:css": "tailwindcss -i ./public/index.css -o ./public/output.css"
