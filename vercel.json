@@ -11,5 +11,9 @@
       "src": "/(.*)",
       "dest": "/app.js"
     }
-  ]
+  ],
+  "env": {
+    "DATABASE_URL": "postgresql://contact_management_system_user:UEcsE4go4UgykCfxZXQhhlW9IjFMc6r7@dpg-cv47mphu0jms73eh94p0-a.frankfurt-postgres.render.com/contact_management_system"
+  }
 }
+

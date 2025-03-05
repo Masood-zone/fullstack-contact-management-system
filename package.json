@@ -4,13 +4,14 @@
   "description": "A contact management system with CRUD operations",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js & npm run build:css -- --watch",
-    "build": "build",
-    "start": "npm run build:css && node app.js",
-    "lint": "lint",
+    "dev": "nodemon app.js",
+    "build": "prisma generate",
+    "start": "node app.js",
+    "lint": "next lint",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "build:css": "tailwindcss -i ./public/index.css -o ./public/output.css"
+    "prisma:migrate": "prisma migrate deploy",
+    "build:css": "tailwindcss -o ./public/output.css",
+    "vercel-build": "prisma generate && prisma migrate deploy && npm run build & npm run build:css"
   },
   "keywords": [
     "contact",
