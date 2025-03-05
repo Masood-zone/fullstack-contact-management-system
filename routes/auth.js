@@ -5,7 +5,7 @@ const UserModel = require("../models/user-model");
 const { forwardAuthenticated } = require("../middleware/auth");
 
 router.get("/register", forwardAuthenticated, (req, res) => {
-  res.render("register");
+  res.render("auth/register");
 });
 
 router.post("/register", async (req, res) => {
@@ -25,13 +25,13 @@ router.post("/register", async (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.render("register", { errors, name, email });
+    res.render("auth/register", { errors, name, email });
   } else {
     try {
       const existingUser = await UserModel.findUserByEmail(email);
       if (existingUser) {
         errors.push({ msg: "Email already exists" });
-        res.render("register", { errors, name, email });
+        res.render("auth/register", { errors, name, email });
       } else {
         await UserModel.createUser({ name, email, password });
         req.flash("success_msg", "You are now registered and can log in");
@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/login", forwardAuthenticated, (req, res) => {
-  res.render("login");
+  res.render("auth/login");
 });
 
 router.post("/login", (req, res, next) => {

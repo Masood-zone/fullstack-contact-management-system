@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(ejsLayouts);
-app.set("layout", "layout");
+app.set("layout", "main/layout");
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,7 +60,7 @@ app.use("/", contactRoutes);
 
 // Error handling middleware
 app.use((req, res) => {
-  res.status(404).render("error", {
+  res.status(404).render("partials/error", {
     message: "Page not found",
     error: {},
     title: "404 Not Found",
@@ -69,7 +69,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).render("error", {
+  res.status(500).render("partials/error", {
     message: "Something went wrong!",
     error: err,
     title: "Error",

@@ -28,14 +28,14 @@ exports.getAllContacts = async (req, res) => {
       ? contacts[0]
       : null;
 
-    res.render("index", {
+    res.render("main/index", {
       contacts,
       selectedContact,
       title: "Contact Management System",
     });
   } catch (error) {
     console.error("Error fetching contacts:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to load contacts",
       error,
     });
@@ -43,12 +43,20 @@ exports.getAllContacts = async (req, res) => {
 };
 
 exports.showAddContactForm = (req, res) => {
-  res.render("add-contact", { title: "Add New Contact" });
+  res.render("contact/add-contact", { title: "Add New Contact" });
 };
 
 exports.addContact = async (req, res) => {
   try {
     const { name, email, phone, username, note, image } = req.body;
+    const userExists = await ContactModel.getContactByEmail(email);
+    const errors = [];
+
+    if (userExists) {
+      errors.push({ msg: "User has been added already!" });
+      res.render("contact/add-contact", { errors, name, phone });
+    }
+
     await ContactModel.addContact({
       name,
       email,
@@ -61,7 +69,7 @@ exports.addContact = async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.error("Error adding contact:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to add contact",
       error,
     });
@@ -72,17 +80,17 @@ exports.showEditContactForm = async (req, res) => {
   try {
     const contact = await ContactModel.getContactById(req.params.id);
     if (!contact) {
-      return res.status(404).render("error", {
+      return res.status(404).render("partials/error", {
         message: "Contact not found",
       });
     }
-    res.render("edit-contact", {
+    res.render("contact/edit-contact", {
       contact,
       title: "Edit Contact",
     });
   } catch (error) {
     console.error("Error fetching contact:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to load contact",
       error,
     });
@@ -103,7 +111,7 @@ exports.updateContact = async (req, res) => {
     res.redirect(`/?id=${req.params.id}`);
   } catch (error) {
     console.error("Error updating contact:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to update contact",
       error,
     });
@@ -116,7 +124,7 @@ exports.deleteContact = async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.error("Error deleting contact:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to delete contact",
       error,
     });
@@ -129,19 +137,19 @@ exports.viewContact = async (req, res) => {
     const selectedContact = await ContactModel.getContactById(req.params.id);
 
     if (!selectedContact) {
-      return res.status(404).render("error", {
+      return res.status(404).render("partials/error", {
         message: "Contact not found",
       });
     }
 
-    res.render("index", {
+    res.render("main/index", {
       contacts,
       selectedContact,
       title: `${selectedContact.name} | Contact Management System`,
     });
   } catch (error) {
     console.error("Error viewing contact:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to view contact",
       error,
     });
@@ -160,7 +168,7 @@ exports.searchContacts = async (req, res) => {
     const contacts = await ContactModel.searchContacts(q, userId);
     const selectedContact = contacts.length > 0 ? contacts[0] : null;
 
-    res.render("index", {
+    res.render("main/index", {
       title: `Search: ${q} | Contact Management System`,
       contacts,
       selectedContact,
@@ -168,7 +176,7 @@ exports.searchContacts = async (req, res) => {
     });
   } catch (error) {
     console.error("Error searching contacts:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to search contacts",
       error,
     });
@@ -177,7 +185,7 @@ exports.searchContacts = async (req, res) => {
 
 exports.exportContacts = async (req, res) => {
   try {
-    const userId = req.session.userId; // Assuming you have authentication
+    const userId = req.user?.id; // Assuming you have authentication
     const contacts = await ContactModel.getAllContacts(userId);
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
@@ -202,7 +210,7 @@ exports.exportContacts = async (req, res) => {
     });
   } catch (error) {
     console.error("Error exporting contacts:", error);
-    res.status(500).render("error", {
+    res.status(500).render("partials/error", {
       message: "Failed to export contacts",
       error,
     });
@@ -210,7 +218,7 @@ exports.exportContacts = async (req, res) => {
 };
 
 exports.showImportForm = (req, res) => {
-  res.render("import-contacts", { title: "Import Contacts" });
+  res.render("contact/import-contacts", { title: "Import Contacts" });
 };
 
 exports.importContacts = [
@@ -218,13 +226,13 @@ exports.importContacts = [
   async (req, res) => {
     try {
       if (!req.file) {
-        return res.status(400).render("importContacts", {
+        return res.status(400).render("import-contacts", {
           title: "Import Contacts",
           error: "Please upload a CSV file",
         });
       }
 
-      const userId = req.session.userId; // Assuming you have authentication
+      const userId = req.user?.id; // Assuming you have authentication
       const contacts = await importContactsFromCSV(req.file.path);
 
       // Import each contact
@@ -245,13 +253,13 @@ exports.importContacts = [
       // Delete the uploaded file
       fs.unlinkSync(req.file.path);
 
-      res.render("import-contacts", {
+      res.render("contact/import-contacts", {
         title: "Import Contacts",
         success: `Successfully imported ${importedCount} contacts`,
       });
     } catch (error) {
       console.error("Error importing contacts:", error);
-      res.status(500).render("error", {
+      res.status(500).render("partials/error", {
         message: "Failed to import contacts",
         error,
       });

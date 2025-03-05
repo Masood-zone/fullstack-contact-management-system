@@ -13,16 +13,6 @@ router.get("/", contactController.getAllContacts);
 router.get("/contacts/add", contactController.showAddContactForm);
 router.post("/contacts/add", contactController.addContact);
 
-// Edit contact
-router.get("/contacts/edit/:id", contactController.showEditContactForm);
-router.post("/contacts/edit/:id", contactController.updateContact);
-
-// Delete contact
-router.get("/contacts/delete/:id", contactController.deleteContact);
-
-// View specific contact
-router.get("/contacts/:id", contactController.viewContact);
-
 // Search contacts
 router.get("/search", contactController.searchContacts);
 
@@ -32,5 +22,15 @@ router.get("/contacts/export", contactController.exportContacts);
 // Import contacts
 router.get("/contacts/import", contactController.showImportForm);
 router.post("/contacts/import", contactController.importContacts);
+
+// Edit contact
+router.get("/contacts/edit/:id", contactController.showEditContactForm);
+router.post("/contacts/edit/:id", contactController.updateContact);
+
+// Delete contact
+router.get("/contacts/delete/:id", contactController.deleteContact);
+
+// View specific contact
+router.get("/contacts/:id", contactController.viewContact);
 
 module.exports = router;

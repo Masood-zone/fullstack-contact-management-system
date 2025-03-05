@@ -16,6 +16,12 @@ class ContactModel {
     });
   }
 
+  static async getContactByEmail(email, userId) {
+    return await prisma.contact.findFirst({
+      where: { email, userId },
+    });
+  }
+
   static async getContactById(id, userId) {
     return await prisma.contact.findFirst({
       where: { id: Number.parseInt(id), userId },
