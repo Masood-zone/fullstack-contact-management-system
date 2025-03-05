@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "build": "prisma generate",
+    "build": "prisma generate && prisma migrate deploy && npm run build & npm run build:css",
     "start": "node app.js",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
