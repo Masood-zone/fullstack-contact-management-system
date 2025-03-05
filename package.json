@@ -1,0 +1,53 @@
+{
+  "name": "contact-management-system",
+  "version": "1.0.0",
+  "description": "A contact management system with CRUD operations",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon app.js & npm run build:css -- --watch",
+    "build": "next build",
+    "start": "npm run build:css && node app.js",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "build:css": "tailwindcss -i ./public/index.css -o ./public/output.css"
+  },
+  "keywords": [
+    "contact",
+    "management",
+    "express",
+    "prisma",
+    "ejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "autoprefixer": "^10.4.20",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "connect-flash": "^0.1.1",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "fast-csv": "^5.0.2",
+    "multer": "1.4.5-lts.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "3.4.17",
+    "tailwindcss-animate": "^1.0.7",
+    "vcf": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.13.9",
+    "nodemon": "^3.1.9",
+    "prisma": "^6.4.1",
+    "typescript": "^5.8.2"
+  }
+}
