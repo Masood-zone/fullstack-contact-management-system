@@ -21,7 +21,7 @@
     "prisma",
     "ejs"
   ],
-  "author": "",
+  "author": "Masood Acheampong",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.4.1",
