@@ -2,11 +2,11 @@
   "name": "contact-management-system",
   "version": "1.0.0",
   "description": "A contact management system with CRUD operations",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
     "build": "npm run prisma:generate && npm run prisma:migrate && npm run build:css",
-    "start": "node server.js",
+    "start": "node app.js",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
