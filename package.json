@@ -10,8 +10,8 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
-    "build:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css",
-    "watch:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css --watch",
+    "build:css": "tailwindcss -i ./public/index.css -o ./public/output.css",
+    "watch:css": "tailwindcss -i ./public/index.css -o ./public/output.css --watch",
     "vercel-build": "npm run build"
   },
   "keywords": [
