@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "build": "prisma generate && prisma migrate deploy & npm run build:css",
-    "start": "node app.js",
+    "build": "npm run prisma:generate && npm run prisma:migrate && npm run build:css",
+    "start": "node server.js",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
-    "build:css": "tailwindcss -o ./public/output.css",
-    "vercel-build": "prisma generate && prisma migrate deploy && npm run build & npm run build:css"
+    "build:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css",
+    "watch:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css --watch",
+    "vercel-build": "npm run build"
   },
   "keywords": [
     "contact",
